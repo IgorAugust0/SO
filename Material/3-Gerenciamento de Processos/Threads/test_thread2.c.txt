@@ -1,0 +1,21 @@
+#include <pthread.h>
+#include <stdio.h>
+#include <stdlib.h>
+
+void* SayHello(void *foo) {
+  int *p_id = (int *) foo;
+  printf( "Hello, world! - %d \n", *p_id);
+  pthread_exit(NULL);
+}
+
+int main() {
+  pthread_t threads[16];
+  int tn;
+  for(tn=0; tn<16; tn++) {
+    pthread_create(&threads[tn], NULL, SayHello, (void*) &tn);
+  }
+  for(tn=0; tn<16 ; tn++) {
+    pthread_join(threads[tn], NULL);
+  }
+  return 0;
+}
