@@ -1,0 +1,50 @@
+#include <pthread.h>
+#include <stdlib.h>
+#include <stdio.h>
+
+int sum; /* compartilhado entre as threads*/
+
+void *runner(void *param); /* a thread */
+
+int main(int argc, char *argv[])
+{
+    pthread_t tid; /* identificador da thread*/
+    pthread_attr_t attr; /* atributos para a thread */
+
+    if (argc != 2)
+    {
+        fprintf(stderr,"usage: a.out <integer value>\n");
+        return -1;
+    }
+
+    if (atoi(argv[1]) < 0)
+    {
+        fprintf(stderr,"Argumento %d deve ser não   	negativo\n",atoi(argv[1]));
+        return -1;
+    }
+
+    /* recebe os atributos – ex. escalonamento */
+    pthread_attr_init(&attr);
+
+    /* cria a thread */
+    pthread_create(&tid,&attr, runner, argv[1]);
+    /* espera a thread parar finalizar */
+    pthread_join(tid,NULL);
+
+    printf("soma= %d\n",sum);
+}
+
+/** A thread começa controlar essa função */
+void *runner(void *param)
+{
+    int i, upper = atoi(param);
+    sum = 0;
+
+    if (upper > 0)
+    {
+        for (i = 1; i <= upper; i++)
+            sum += i;
+    }
+    pthread_exit(0);
+}
+

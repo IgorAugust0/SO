@@ -1,0 +1,8 @@
+1) Escreva e compile o programa do Exemplo 1.
+a) Execute e descreva quantos threads foram criados na execução desse código?
+
+Foram criadas 16 threads.
+
+b) Quantas mensagens aparecem na tela? Por que isso acontece?
+
+
